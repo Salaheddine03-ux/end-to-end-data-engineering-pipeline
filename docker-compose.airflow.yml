@@ -30,6 +30,7 @@ x-airflow-common: &airflow-common
     - ./plugins:/opt/airflow/plugins
     - airflow_auth:/opt/airflow/auth
     - ./src:/opt/airflow/etl_src:ro
+    - ./data:/opt/airflow/data
 
   depends_on:
     airflow-db:

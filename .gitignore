@@ -20,3 +20,9 @@ airflow.db
 # OS
 .DS_Store
 Thumbs.db
+
+# Intermediate ETL data
+data/
+
+# Airflow runtime
+logs/
