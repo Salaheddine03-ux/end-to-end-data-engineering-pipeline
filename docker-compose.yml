@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: etl-postgres
+
+    environment:
+      POSTGRES_DB: data_engineering_lab
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d data_engineering_lab"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  etl:
+    build: .
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: data_engineering_lab
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
