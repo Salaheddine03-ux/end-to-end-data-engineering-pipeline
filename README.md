@@ -29,7 +29,7 @@ flowchart LR
     EX --> TR["Transform fields"]
     TR --> VA{"Validate records"}
     VA -->|"Valid"| DB[("PostgreSQL: products")]
-    VA -->|"Invalid"| LOG["Rejected-record log"]
+    VA -->|"Invalid count"| RUNS
     AF["Airflow DAG"] -. "orchestrates and retries" .-> EX
     AF -.-> TR
     AF -.-> VA
